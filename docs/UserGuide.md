@@ -196,8 +196,19 @@ Examples:
    PUBLISHED
 * ```
  
+### Deleting existing articles: `delete -a`
 
+Deletes an existing article from the address book.
 
+Format : `delete -a [INDEX]`
+
+* Deletes the article at the specified index.
+* The index refers to the index number shown in the displayed article list.
+* delete 1 after the find command deletes the first article found by the find command.
+* If INDEX exceeds the number of articles in the list, an error message is printed.
+* INDEX should be a positive integer, if not, an error message will be printed.
+
+Example : `delete -a 1` deletes the first article from the list of articles or the first article found by find command.
 
 
 ### Exiting the program : `exit`
