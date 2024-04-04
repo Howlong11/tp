@@ -22,7 +22,7 @@ import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
- * Contains helper methods for testing commands.
+ * Contains helper methods for testing person commands.
  */
 public class CommandTestUtil {
 
@@ -74,8 +74,8 @@ public class CommandTestUtil {
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
      * - the {@code actualModel} matches {@code expectedModel}
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, CommandResult expectedCommandResult,
-            Model expectedModel) {
+    public static void assertCommandSuccess(PersonCommand command, Model actualModel,
+                                            CommandResult expectedCommandResult, Model expectedModel) {
         try {
             CommandResult result = command.execute(actualModel);
             assertEquals(expectedCommandResult, result);
@@ -86,10 +86,10 @@ public class CommandTestUtil {
     }
 
     /**
-     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
+     * Convenience wrapper to {@link #assertCommandSuccess(PersonCommand, Model, CommandResult, Model)}
      * that takes a string {@code expectedMessage}.
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
+    public static void assertCommandSuccess(PersonCommand command, Model actualModel, String expectedMessage,
             Model expectedModel) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
         assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
@@ -101,7 +101,7 @@ public class CommandTestUtil {
      * - the CommandException message matches {@code expectedMessage} <br>
      * - the address book, filtered person list and selected person in {@code actualModel} remain unchanged
      */
-    public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
+    public static void assertCommandFailure(PersonCommand command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
@@ -111,6 +111,7 @@ public class CommandTestUtil {
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
         assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
     }
+
     /**
      * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
      * {@code model}'s address book.
@@ -125,4 +126,26 @@ public class CommandTestUtil {
         assertEquals(1, model.getFilteredPersonList().size());
     }
 
+    /**
+     * Updates {@code model}'s filtered list to show only the persons within the range {@code startIndex-endIndex}
+     * in the {@code model}'s address book.
+     */
+    public static void showPersonInRange(Model model, Index startIndex, Index endIndex) {
+        assertTrue(0 <= startIndex.getZeroBased());
+        assertTrue(startIndex.getZeroBased() < model.getFilteredPersonList().size());
+        assertTrue(endIndex.getZeroBased() < model.getFilteredPersonList().size());
+        assertTrue(startIndex.getZeroBased() <= endIndex.getZeroBased());
+
+        ArrayList<String> personFirstNames = new ArrayList<>();
+
+        for (int i = startIndex.getZeroBased(); i <= endIndex.getZeroBased(); i++) {
+            Person person = model.getFilteredPersonList().get(i);
+            final String[] splitName = person.getName().fullName.split("\\s+");
+            personFirstNames.add(splitName[0]);
+        }
+
+        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(personFirstNames));
+
+        assertEquals(endIndex.getOneBased() - startIndex.getZeroBased(), model.getFilteredPersonList().size());
+    }
 }

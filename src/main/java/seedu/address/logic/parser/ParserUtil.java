@@ -6,15 +6,24 @@ import static seedu.address.model.article.Article.Status.DRAFT;
 import static seedu.address.model.article.Article.Status.PUBLISHED;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.article.Article;
+import seedu.address.model.article.Article.Status;
+import seedu.address.model.article.Author;
+import seedu.address.model.article.Link;
+import seedu.address.model.article.Outlet;
+import seedu.address.model.article.PublicationDate;
+import seedu.address.model.article.Source;
+import seedu.address.model.article.Title;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -131,82 +140,122 @@ public class ParserUtil {
     /**
      * Parses a {@code String title} into a {@code Title}.
      */
-    public static String parseTitle(String title) throws ParseException {
+    public static Title parseTitle(String title) throws ParseException {
         requireNonNull(title);
         String trimmedTitle = title.trim();
-        //removed the check for title validity
-        return trimmedTitle;
+        if (!Title.isValidTitle(trimmedTitle)) {
+            throw new ParseException(Title.MESSAGE_CONSTRAINTS);
+        }
+        return new Title(trimmedTitle);
     }
 
     /**
      * Parses a {@code String author} into a {@code Author}.
      */
-    public static String parseAuthor(String author) throws ParseException {
+    public static Author parseAuthor(String author) throws ParseException {
         requireNonNull(author);
         String trimmedAuthor = author.trim();
-        //removed the check for author validity
-        return trimmedAuthor;
+        if (!Author.isValidAuthorName(trimmedAuthor)) {
+            throw new ParseException(Author.MESSAGE_CONSTRAINTS);
+        }
+        return new Author(trimmedAuthor);
     }
 
     /**
-     * Parses a {@code List<String> authors} into a {@code String[]}.
+     * Parses a {@code List<String> authors} into a {@code Set<Author>}.
      */
-    public static String[] parseAuthors(List<String> authors) throws ParseException {
+    public static Set<Author> parseAuthors(Collection<String> authors) throws ParseException {
         requireNonNull(authors);
-        final String[] authorSet = new String[authors.size()];
-        for (int i = 0; i < authors.size(); i++) {
-            authorSet[i] = parseAuthor(authors.get(i));
+        final Set<Author> authorSet = new HashSet<>();
+        for (String authorName : authors) {
+            authorSet.add(parseAuthor(authorName));
         }
         return authorSet;
     }
 
     /**
-     * Parses a {@code String publicationDate} into a {@code LocalDateTime}.
+     * Parses a {@code String publicationDate} into a {@code PublicationDate}.
      */
-    public static LocalDateTime parsePublicationDate(String publicationDate) throws ParseException {
+    public static PublicationDate parsePublicationDate(String publicationDate) throws ParseException {
         requireNonNull(publicationDate);
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("dd-MM-yyyy[ HH:mm]")
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .toFormatter();
+
         String trimmedPublicationDate = publicationDate.trim();
-        LocalDateTime parsedDate = LocalDateTime.parse(trimmedPublicationDate);
-        //removed the check for publication date validity
-        return parsedDate;
+        try {
+            LocalDateTime tempDate = LocalDateTime.parse(trimmedPublicationDate, formatter);
+            return new PublicationDate(tempDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Invalid publication date");
+        }
+    }
+
+    /**
+     * Parses a {@code LocalDateTime date} into a {@code String}.
+     * @param date The date to be parsed.
+     * @return The date in the format of [dd-MM-yyyy HH:mm].
+     */
+    public static String parseDateToString(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return date.format(formatter);
     }
 
     /**
      * Parses a {@code String source} into a {@code Source}.
      */
-    public static String parseSource(String source) throws ParseException {
+    public static Source parseSource(String source) throws ParseException {
         requireNonNull(source);
         String trimmedSource = source.trim();
-        //removed the check for Source validity
-        return trimmedSource;
+        if (!Source.isValidSourceName(trimmedSource)) {
+            throw new ParseException(Source.MESSAGE_CONSTRAINTS);
+        }
+        return new Source(trimmedSource);
     }
 
     /**
-     * Parses a {@code List<String> sources} into a {@code String[]}.
+     * Parses a {@code List<String> sources} into a {@code Set<Source>}.
      */
-    public static String[] parseSources(List<String> sources) throws ParseException {
+    public static Set<Source> parseSources(Collection<String> sources) throws ParseException {
         requireNonNull(sources);
-        final String[] sourceSet = new String[sources.size()];
-        for (int i = 0; i < sources.size(); i++) {
-            sourceSet[i] = parseSource(sources.get(i));
+        final Set<Source> sourceSet = new HashSet<>();
+        for (String sourceName : sources) {
+            sourceSet.add(parseSource(sourceName));
         }
         return sourceSet;
     }
 
     /**
-     * Parses a {@code String category} into a {@code Category}.
+     * Parses a {@code String outlet} into a {@code Outlet}.
      */
-    public static String parseCategory(String category) throws ParseException {
-        requireNonNull(category);
-        String trimmedCategory = category.trim();
-        //removed the check for category validity
-        return trimmedCategory;
+    public static Outlet parseOutlet(String outlet) throws ParseException {
+        requireNonNull(outlet);
+        String trimmedOutlet = outlet.trim();
+        if (!Outlet.isValidOutletName(trimmedOutlet)) {
+            throw new ParseException(Outlet.MESSAGE_CONSTRAINTS);
+        }
+        return new Outlet(trimmedOutlet);
+    }
+
+    /**
+     * Parses a {@code List<String> outlets} into a {@code Set<Outlet>}.
+     */
+    public static Set<Outlet> parseOutlets(Collection<String> outlets) throws ParseException {
+        requireNonNull(outlets);
+        final Set<Outlet> outletSet = new HashSet<>();
+        for (String outletName : outlets) {
+            outletSet.add(parseOutlet(outletName));
+        }
+        return outletSet;
     }
 
     /**
      * Parses a {@code String status} into a {@code Status}.
      */
-    public static Enum<Article.Status> parseStatus(String status) throws ParseException {
+    public static Status parseStatus(String status) throws ParseException {
         requireNonNull(status);
         String trimmedStatus = status.trim();
         switch (trimmedStatus) {
@@ -219,5 +268,17 @@ public class ParserUtil {
         default:
             throw new ParseException("Invalid status");
         }
+    }
+
+    /**
+     * Parses a {@code String link} into a {@code Link}.
+     */
+    public static Link parseLink(String link) throws ParseException {
+        requireNonNull(link);
+        String trimmedLink = link.trim();
+        if (!Link.isValidLink(trimmedLink)) {
+            throw new ParseException(Link.MESSAGE_CONSTRAINTS);
+        }
+        return new Link(trimmedLink);
     }
 }

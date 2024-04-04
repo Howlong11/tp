@@ -19,6 +19,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.ArticleFilter;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyArticleBook;
@@ -151,6 +152,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void sortAddressBook(String prefix) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
@@ -197,6 +203,25 @@ public class AddCommandTest {
 
         @Override
         public void setArticle(Article target, Article editedArticle) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void sortArticleBook(String prefix) {
+            throw new AssertionError("This method should not be called.");
+        }
+        @Override
+        public ArticleFilter getFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void lookupArticle(Article articleToLookup) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void lookupPerson(Person personToLookup) {
             throw new AssertionError("This method should not be called.");
         }
     }

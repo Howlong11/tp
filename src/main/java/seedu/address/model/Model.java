@@ -80,6 +80,11 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
+    /**
+     * Sorts the address book by the attribute represented by the given prefix.
+     */
+    void sortAddressBook(String prefix);
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -128,9 +133,24 @@ public interface Model {
     void deleteArticle(Article target);
 
     /**
+     * Sorts the article book by the attribute represented by the given prefix.
+     */
+    void sortArticleBook(String prefix);
+
+    /**
      * Updates the filter of the filtered article list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredArticleList(Predicate<Article> predicate);
+    ArticleFilter getFilter();
 
+    /**
+     * Updates the filter of the filtered article list to filter for persons within the article.
+     */
+    void lookupArticle(Article articleToLookup);
+
+    /**
+     * Updates the filter of the filtered article list to filter for persons within the article.
+     */
+    void lookupPerson(Person personToLookup);
 }

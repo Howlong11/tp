@@ -2,12 +2,15 @@ package seedu.address.model.article;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.person.Person;
 
 /**
  * A list of articles that are unique
@@ -101,6 +104,19 @@ public class UniqueArticleList implements Iterable<Article> {
     }
 
     /**
+     * Sorts the list of articles by the attribute represented by the given prefix.
+     */
+    public void sortArticles(String prefix) {
+        requireNonNull(prefix);
+        if (PREFIX_PUBLICATION_DATE.getPrefix().equals(prefix)) {
+            // Sort by publication date and display most recent articles first.
+            internalList.sort(Comparator.comparing(Article::getPublicationDate, Comparator.reverseOrder()));
+        } else {
+            throw new IllegalArgumentException("Invalid prefix supplied.");
+        }
+    }
+
+    /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Article> asUnmodifiableObservableList() {
@@ -149,5 +165,32 @@ public class UniqueArticleList implements Iterable<Article> {
             }
         }
         return true;
+    }
+
+    /**
+     * Makes links between articles and persons in the address book.
+     */
+    public void makeLinks(List<Person> uniquePersonList) {
+        for (Article article : internalList) {
+            article.makeLinks(uniquePersonList);
+        }
+    }
+
+    /**
+     * Makes links between articles and the given person.
+     */
+    public void makeLinkPerson(Person person) {
+        for (Article article : internalList) {
+            article.makeLink(person);
+        }
+    }
+
+    /**
+     * Reestablishes links between articles and the edited person.
+     */
+    public void setEditedPerson(Person target, Person editedPerson) {
+        for (Article article : internalList) {
+            article.updateNamesInArticle(target, editedPerson);
+        }
     }
 }

@@ -1,20 +1,28 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ARTICLETAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AUTHOR;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CATEGORY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OUTLET;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SOURCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.articlecommands.AddArticleCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.article.Article;
+import seedu.address.model.article.Author;
+import seedu.address.model.article.Link;
+import seedu.address.model.article.Outlet;
+import seedu.address.model.article.PublicationDate;
+import seedu.address.model.article.Source;
+import seedu.address.model.article.Title;
+import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddArticleCommand object
@@ -28,23 +36,30 @@ public class AddArticleCommandParser implements Parser<AddArticleCommand> {
      */
     public AddArticleCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_PUBLICATION_DATE, PREFIX_SOURCE,
-                        PREFIX_CATEGORY, PREFIX_STATUS);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_PUBLICATION_DATE, PREFIX_SOURCE,
-                PREFIX_CATEGORY, PREFIX_STATUS) || !argMultimap.getPreamble().isEmpty()) {
+                ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_SOURCE, PREFIX_ARTICLETAG,
+                        PREFIX_OUTLET, PREFIX_PUBLICATION_DATE, PREFIX_STATUS, PREFIX_LINK);
+        //TODO: REMOVE PUBLICATION DATE REQUIREMENT
+        if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_PUBLICATION_DATE, PREFIX_STATUS)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddArticleCommand.MESSAGE_USAGE));
         }
 
-        String title = ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get());
-        String[] authorList = ParserUtil.parseAuthors(argMultimap.getAllValues(PREFIX_AUTHOR));
-        LocalDateTime publicationDate = ParserUtil.parsePublicationDate(argMultimap.getValue(PREFIX_PUBLICATION_DATE)
+        Title title = ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get());
+        Set<Author> authorList = ParserUtil.parseAuthors(argMultimap.getAllValues(PREFIX_AUTHOR));
+        Set<Source> sourceList = ParserUtil.parseSources(argMultimap.getAllValues(PREFIX_SOURCE));
+        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_ARTICLETAG));
+        Set<Outlet> outletList = ParserUtil.parseOutlets(argMultimap.getAllValues(PREFIX_OUTLET));
+        PublicationDate publicationDate = ParserUtil.parsePublicationDate(argMultimap.getValue(PREFIX_PUBLICATION_DATE)
                 .get());
-        String[] sourceList = ParserUtil.parseSources(argMultimap.getAllValues(PREFIX_TAG));
-        String category = ParserUtil.parseCategory(argMultimap.getValue(PREFIX_CATEGORY).get());
         Article.Status status = (Article.Status) ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get());
-
-        Article article = new Article(title, authorList, publicationDate, sourceList, category, status);
+        Link link;
+        if (argMultimap.getValue(PREFIX_LINK).isEmpty()) {
+            link = new Link("");
+        } else {
+            link = ParserUtil.parseLink(argMultimap.getValue(PREFIX_LINK).get());
+        }
+        Article article = new Article(title, authorList, sourceList, tagList,
+                outletList, publicationDate, status, link);
 
         return new AddArticleCommand(article);
     }

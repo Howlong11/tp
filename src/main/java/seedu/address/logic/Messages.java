@@ -21,6 +21,7 @@ public class Messages {
     public static final String MESSAGE_ARTICLES_LISTED_OVERVIEW = "%1$d articles listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_INVALID_SORTING_PREFIX = "Invalid prefix given for sorting";
 
     /**
      * Returns an error message indicating the duplicate prefixes.
@@ -56,18 +57,19 @@ public class Messages {
      */
     public static String format(Article article) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("; Title: ")
-                .append(article.getTitle())
+        builder.append(article.getTitle())
                 .append("; Authors: ")
                 .append(article.getAuthors())
                 .append("; Publication Date: ")
-                .append(article.getPublicationDate())
-                .append("; Source: ")
-                .append(article.getSource())
-                .append("; Category: ")
-                .append(article.getCategory())
+                .append(article.getPublicationDateAsString())
+                .append("; Sources: ")
+                .append(article.getSources())
+                .append("; Tags: ")
+                .append(article.getTags())
                 .append("; Status: ")
-                .append(article.getStatus());
+                .append(article.getStatus())
+                .append("; Link: ")
+                .append(article.getLink());
         return builder.toString();
     }
 
