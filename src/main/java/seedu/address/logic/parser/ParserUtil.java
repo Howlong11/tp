@@ -190,7 +190,7 @@ public class ParserUtil {
             LocalDateTime tempDate = LocalDateTime.parse(trimmedPublicationDate, formatter);
             return new PublicationDate(tempDate);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Invalid publication date");
+            throw new ParseException("Invalid date");
         }
     }
 

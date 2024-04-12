@@ -72,9 +72,9 @@ PressPlanner's tagging system for [persons](#31-managing-contacts) and [articles
 
 ### [2.2. Launching the App](#2-getting-started)
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar pressplanner.jar` command to run the application.
-1. A window similar to the one below should appear in a few seconds. Note how the app contains some sample data. The information on what each data represents is shown in the picture below.
+1. A window similar to the one below should appear in a few seconds. Note how the app contains some sample data.
 
-<img src="images/UiDescription.png" alt="UI">
+<img src="images/PressPlanner.PNG" alt="UI">
 
 ### [2.3. The Beginner's Guide to PressPlanner](#2-getting-started)
 
@@ -106,9 +106,6 @@ Let's go over the basic PressPlanner workflow. Say you've just finished intervie
        - Status (`s/`)
          - An article can be a `draft`, `published`, or `archived`.
      - For example: `add -a h/My Article d/20-10-2023 s/draft`
-
-> :warning:
-> You should only use each prefixes once, except the `t/` prefix for Tags. If you use multiple prefixes in one command, eg. `add -a h/My Article d/20-10-2023 s/draft h/My Second Article` only the value that comes after the last duplicate prefix will be added, which means that in this case, the header of the article will be `My Second Article`.
 
 3. Now that that's done, let's say you need to find Gill Bate's number to arrange another interview.
     - Typing the command `find Gill Bates` will pull up his contact.
@@ -288,13 +285,8 @@ Format: `add -a h/HEADLINE [c/CONTRIBUTOR... ] [i/INTERVIEWEE... ] [t/TAG... ] [
     * `HH:mm` must be in 24-hour format.
     * Examples of valid dates: `01-01-2023`, `01-01-2023 22:30`
   * `STATUS` can be `draft`, `published`, or `archived`.
-    * To allow you to add different versions of `draft`, PressPlanner allows duplicates of articles as long as their `STATUS` are `draft`.
-  * If you do not have a valid webpage of the link, do not include `l/` in your add command for `LINK`. PressPlanner does not check for validity of links, so you might end up the link not opening upon clicking the `Link` button.
 * Adding an article will return to displaying all articles if a [find](#325-searching-for-an-article-by-headline--find--a) command was executed before.
   * This does not apply to [filters](#326-filtering-articles--filter--a).
-
-> :warning:
-> You should only use each prefixes once, except the `t/` prefix for Tags. If you use multiple prefixes in one command, eg. `add -a h/My Article d/20-10-2023 s/draft h/My Second Article` only the value that comes after the last duplicate prefix to be added, which means that in this case, the header of the article will be "My Second Article".
 
 
 Examples:
@@ -337,9 +329,6 @@ Format: `edit -a [h/HEADLINE] [d/DATE] [s/STATUS] [c/CONTRIBUTOR... ] [i/INTERVI
 Examples:
 *  `edit 1 h/iPhone Review` Edits the headline of the 1st article to be `iPhone Review`.
 *  `edit 2 h/iPhone Review i/` Edits the headline of the 2nd article to be `iPhone Review` and clears all existing interviewees.
-
-> :warning:
-> You should only use each prefixes once, except the `t/` prefix for Tags. If you use multiple prefixes in one command, eg. `add -a h/My Article d/20-10-2023 s/draft h/My Second Article` only the value that comes after the last duplicate prefix to be added, which means that in this case, the header of the article will be "My Second Article".
 
 
 ### [3.2.5. Searching for an Article by Headline : `find -a`](#32-managing-articles)
@@ -425,7 +414,6 @@ Example:
 ### [3.2.10. Opening a Webpage for an Article](#32-managing-articles)
 
 * By clicking the `Link` button of your article that is highlighted in yellow box in the picture below, you can open up the webpage for your article that is added when you added the article.
-* If the webpage does not open when clicked, it means that the `link` of the article is invalid.
 
 ![opening link](images/LinkFeatureSample.png)
 

@@ -20,10 +20,10 @@ public class SortCommandParser implements Parser<SortCommand> {
     };
 
     /**
-     * Checks if the given prefix is allowed in choosing an attribute for sorting.
+     * Checks if the given prefix is allowed in choosing an attribute for sorting that is case-insensitive.
      */
     public static boolean isAllowedPrefix(String prefix) {
-        return AllowedPrefixes.contains(prefix);
+        return AllowedPrefixes.contains(prefix.toLowerCase()) || AllowedPrefixes.contains(prefix.toUpperCase());
     }
 
     /**
@@ -32,12 +32,14 @@ public class SortCommandParser implements Parser<SortCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public SortCommand parse(String args) throws ParseException {
+
         String prefix = args.trim();
-        if (prefix.isEmpty() || !PREFIX_NAME.getPrefix().equals(prefix)) {
+        if (prefix.isEmpty() || !PREFIX_NAME.getPrefix().equalsIgnoreCase(prefix)) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
         }
 
         return new SortCommand(prefix);
     }
+
 }

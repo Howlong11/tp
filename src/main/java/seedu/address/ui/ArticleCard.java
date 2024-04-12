@@ -91,6 +91,7 @@ public class ArticleCard extends UiPart<Region> {
             });
         } else {
             hyperlink.setVisible(false);
+            hyperlink.setManaged(false);
         }
     }
 

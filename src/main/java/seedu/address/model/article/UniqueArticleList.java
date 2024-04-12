@@ -2,7 +2,7 @@ package seedu.address.model.article;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -108,7 +108,7 @@ public class UniqueArticleList implements Iterable<Article> {
      */
     public void sortArticles(String prefix) {
         requireNonNull(prefix);
-        if (PREFIX_PUBLICATION_DATE.getPrefix().equals(prefix)) {
+        if (PREFIX_DATE.getPrefix().equalsIgnoreCase(prefix)) {
             // Sort by publication date and display most recent articles first.
             internalList.sort(Comparator.comparing(Article::getPublicationDate, Comparator.reverseOrder()));
         } else {

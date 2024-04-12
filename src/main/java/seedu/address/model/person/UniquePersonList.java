@@ -104,7 +104,7 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void sortPersons(String prefix) {
         requireNonNull(prefix);
-        if (PREFIX_NAME.getPrefix().equals(prefix)) {
+        if (PREFIX_NAME.getPrefix().equalsIgnoreCase(prefix)) {
             internalList.sort(Comparator.comparing(Person::getName));
         } else {
             throw new IllegalArgumentException("Invalid prefix supplied.");

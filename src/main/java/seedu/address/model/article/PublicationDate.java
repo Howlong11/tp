@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  */
 public class PublicationDate implements Comparable<PublicationDate> {
     public static final String MESSAGE_CONSTRAINTS =
-            "Publication date should be a valid date in the format of dd-MM-yyyy [HH:mm].";
+            "Date should be a valid date in the format of dd-MM-yyyy [HH:mm].";
     public final LocalDateTime date;
 
     /**

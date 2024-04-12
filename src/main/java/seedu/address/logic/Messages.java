@@ -58,14 +58,16 @@ public class Messages {
     public static String format(Article article) {
         final StringBuilder builder = new StringBuilder();
         builder.append(article.getTitle())
-                .append("; Authors: ")
-                .append(article.getAuthors())
-                .append("; Publication Date: ")
+                .append("; Contributors: ");
+        article.getAuthors().forEach(builder::append);
+        builder.append("; Interviewees: ");
+        article.getSources().forEach(builder::append);
+        builder.append("; Tags: ");
+        article.getTags().forEach(builder::append);
+        builder.append("; Outlets: ");
+        article.getOutlets().forEach(builder::append);
+        builder.append("; Date: ")
                 .append(article.getPublicationDateAsString())
-                .append("; Sources: ")
-                .append(article.getSources())
-                .append("; Tags: ")
-                .append(article.getTags())
                 .append("; Status: ")
                 .append(article.getStatus())
                 .append("; Link: ")

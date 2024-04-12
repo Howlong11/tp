@@ -2,13 +2,14 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ARTICLETAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_AUTHOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTRIBUTOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_HEADLINE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEWEE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OUTLET;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_SOURCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -37,8 +38,8 @@ public class EditArticleCommandParser implements Parser<EditArticleCommand> {
     public EditArticleCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_SOURCE,
-                        PREFIX_ARTICLETAG, PREFIX_OUTLET, PREFIX_PUBLICATION_DATE, PREFIX_STATUS);
+                ArgumentTokenizer.tokenize(args, PREFIX_HEADLINE, PREFIX_CONTRIBUTOR, PREFIX_INTERVIEWEE,
+                        PREFIX_TAG, PREFIX_OUTLET, PREFIX_DATE, PREFIX_STATUS, PREFIX_LINK);
 
         Index index;
 
@@ -49,25 +50,28 @@ public class EditArticleCommandParser implements Parser<EditArticleCommand> {
                     pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_TITLE, PREFIX_PUBLICATION_DATE, PREFIX_STATUS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_HEADLINE, PREFIX_DATE, PREFIX_STATUS);
 
         EditArticleCommand.EditArticleDescriptor editArticleDescriptor = new EditArticleCommand.EditArticleDescriptor();
 
-        if (argMultimap.getValue(PREFIX_TITLE).isPresent()) {
-            editArticleDescriptor.setTitle(ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get()));
+        if (argMultimap.getValue(PREFIX_HEADLINE).isPresent()) {
+            editArticleDescriptor.setTitle(ParserUtil.parseTitle(argMultimap.getValue(PREFIX_HEADLINE).get()));
         }
-        if (argMultimap.getValue(PREFIX_PUBLICATION_DATE).isPresent()) {
+        if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             editArticleDescriptor.setPublicationDate(ParserUtil.parsePublicationDate(argMultimap
-                    .getValue(PREFIX_PUBLICATION_DATE).get()));
+                    .getValue(PREFIX_DATE).get()));
         }
         if (argMultimap.getValue(PREFIX_STATUS).isPresent()) {
             editArticleDescriptor.setStatus(ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS)
                     .get()));
         }
+        if (argMultimap.getValue(PREFIX_LINK).isPresent()) {
+            editArticleDescriptor.setLink(ParserUtil.parseLink(argMultimap.getValue(PREFIX_LINK).get()));
+        }
 
-        parseAuthorsForEdit(argMultimap.getAllValues(PREFIX_AUTHOR)).ifPresent(editArticleDescriptor::setAuthors);
-        parseSourcesForEdit(argMultimap.getAllValues(PREFIX_SOURCE)).ifPresent(editArticleDescriptor::setSources);
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_ARTICLETAG)).ifPresent(editArticleDescriptor::setTags);
+        parseAuthorsForEdit(argMultimap.getAllValues(PREFIX_CONTRIBUTOR)).ifPresent(editArticleDescriptor::setAuthors);
+        parseSourcesForEdit(argMultimap.getAllValues(PREFIX_INTERVIEWEE)).ifPresent(editArticleDescriptor::setSources);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editArticleDescriptor::setTags);
         parseOutletsForEdit(argMultimap.getAllValues(PREFIX_OUTLET)).ifPresent(editArticleDescriptor::setOutlets);
 
         if (!editArticleDescriptor.isAnyFieldEdited()) {

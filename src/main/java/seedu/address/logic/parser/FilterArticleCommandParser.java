@@ -1,9 +1,9 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ARTICLETAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.stream.Stream;
 
@@ -18,15 +18,18 @@ public class FilterArticleCommandParser implements Parser<FilterArticleCommand> 
     @Override
     public FilterArticleCommand parse(String userInput) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(userInput, PREFIX_STATUS,
-                PREFIX_ARTICLETAG, PREFIX_START, PREFIX_END);
-        if (!arePrefixesPresent(argMultimap, PREFIX_STATUS, PREFIX_ARTICLETAG, PREFIX_START, PREFIX_END)) {
+                PREFIX_TAG, PREFIX_START, PREFIX_END);
+        if (!arePrefixesPresent(argMultimap, PREFIX_STATUS, PREFIX_TAG, PREFIX_START, PREFIX_END)) {
             throw new ParseException("Invalid command format!\nfilter: Applies a filter. "
-                    + "Parameters: S/Status TAG/tag ST/Start date EN/End date"
-                    + "\nExample: filter -a S/DRAFT TAG/Product Releases ST/01-01-2001 EN/03-03-2023"
+                    + "Parameters: " + PREFIX_STATUS + "STATUS " + PREFIX_TAG + "TAG "
+                    + PREFIX_START + "START DATE " + PREFIX_END + "END DATE"
+                    + "\nExample: filter -a " + PREFIX_STATUS
+                    + "DRAFT " + PREFIX_TAG + "Product Releases "
+                    + PREFIX_START + "01-01-2001 " + PREFIX_END + "03-03-2023"
             );
         }
         String status = argMultimap.getValue(PREFIX_STATUS).get();
-        String tagName = argMultimap.getValue(PREFIX_ARTICLETAG).get();
+        String tagName = argMultimap.getValue(PREFIX_TAG).get();
         String start = argMultimap.getValue(PREFIX_START).get();
         String end = argMultimap.getValue(PREFIX_END).get();
         return new FilterArticleCommand(status, tagName, start, end);

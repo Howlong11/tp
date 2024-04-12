@@ -202,25 +202,27 @@ public class Article {
         return title.equals(otherArticle.title)
                 && authors.equals(otherArticle.authors)
                 && sources.equals(otherArticle.sources)
-                && publicationDate.equals(otherArticle.publicationDate)
                 && tags.equals(otherArticle.tags)
+                && outlets.equals(otherArticle.outlets)
+                && publicationDate.equals(otherArticle.publicationDate)
                 && status.equals(otherArticle.status)
                 && link.equals(otherArticle.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, authors, publicationDate, sources, tags, status, link);
+        return Objects.hash(title, authors, sources, tags, outlets, publicationDate, status, link);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("title", title)
-                .add("authors", authors)
-                .add("publicationDate", publicationDate)
-                .add("sources", sources)
+                .add("headline", title)
+                .add("contributors", authors)
+                .add("interviewees", sources)
                 .add("tags", tags)
+                .add("outlets", outlets)
+                .add("date", publicationDate)
                 .add("status", status)
                 .add("link", link)
                 .toString();

@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Title {
     public static final String MESSAGE_CONSTRAINTS =
-            "Titles should should not be blank or start with a whitespace character.";
+            "Headlines should should not be blank or start with a whitespace character.";
 
     public static final String VALIDATION_REGEX = "^(?!\\s).*";
 

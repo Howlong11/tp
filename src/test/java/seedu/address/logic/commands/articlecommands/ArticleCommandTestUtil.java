@@ -2,14 +2,14 @@ package seedu.address.logic.commands.articlecommands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_AUTHOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTRIBUTOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_HEADLINE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEWEE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OUTLET;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_SOURCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -55,20 +55,20 @@ public class ArticleCommandTestUtil {
     public static final String VALID_LINK_NVIDIA = "https://www.nvidia.com/en-sg/";
     public static final String VALID_LINK_INTEL = "https://www.intel.com/content/www/us/en/homepage.html";
 
-    public static final String TITLE_DESC_NVIDIA = " " + PREFIX_TITLE + VALID_TITLE_NVIDIA;
-    public static final String TITLE_DESC_INTEL = " " + PREFIX_TITLE + VALID_TITLE_INTEL;
-    public static final String AUTHOR_DESC_NVIDIA = " " + PREFIX_AUTHOR + FIRST_VALID_AUTHOR_NVIDIA
-            + " " + PREFIX_AUTHOR + SECOND_VALID_AUTHOR_NVIDIA;
-    public static final String AUTHOR_DESC_INTEL = " " + PREFIX_AUTHOR + FIRST_VALID_AUTHOR_INTEL
-            + " " + PREFIX_AUTHOR + SECOND_VALID_AUTHOR_INTEL;
-    public static final String PUBLICATION_DATE_DESC_NVIDIA = " " + PREFIX_PUBLICATION_DATE
+    public static final String TITLE_DESC_NVIDIA = " " + PREFIX_HEADLINE + VALID_TITLE_NVIDIA;
+    public static final String TITLE_DESC_INTEL = " " + PREFIX_HEADLINE + VALID_TITLE_INTEL;
+    public static final String AUTHOR_DESC_NVIDIA = " " + PREFIX_CONTRIBUTOR + FIRST_VALID_AUTHOR_NVIDIA
+            + " " + PREFIX_CONTRIBUTOR + SECOND_VALID_AUTHOR_NVIDIA;
+    public static final String AUTHOR_DESC_INTEL = " " + PREFIX_CONTRIBUTOR + FIRST_VALID_AUTHOR_INTEL
+            + " " + PREFIX_CONTRIBUTOR + SECOND_VALID_AUTHOR_INTEL;
+    public static final String PUBLICATION_DATE_DESC_NVIDIA = " " + PREFIX_DATE
             + VALID_PUBLICATION_DATE_NVIDIA;
-    public static final String PUBLICATION_DATE_DESC_INTEL = " " + PREFIX_PUBLICATION_DATE
+    public static final String PUBLICATION_DATE_DESC_INTEL = " " + PREFIX_DATE
             + VALID_PUBLICATION_DATE_INTEL;
-    public static final String SOURCE_DESC_NVIDIA = " " + PREFIX_SOURCE + FIRST_VALID_SOURCE_NVIDIA
-            + " " + PREFIX_SOURCE + SECOND_VALID_SOURCE_NVIDIA;
-    public static final String SOURCE_DESC_INTEL = " " + PREFIX_SOURCE + FIRST_VALID_SOURCE_INTEL
-            + " " + PREFIX_SOURCE + SECOND_VALID_SOURCE_INTEL;
+    public static final String SOURCE_DESC_NVIDIA = " " + PREFIX_INTERVIEWEE + FIRST_VALID_SOURCE_NVIDIA
+            + " " + PREFIX_INTERVIEWEE + SECOND_VALID_SOURCE_NVIDIA;
+    public static final String SOURCE_DESC_INTEL = " " + PREFIX_INTERVIEWEE + FIRST_VALID_SOURCE_INTEL
+            + " " + PREFIX_INTERVIEWEE + SECOND_VALID_SOURCE_INTEL;
     public static final String OUTLET_DESC_NVIDIA = " " + PREFIX_OUTLET + FIRST_VALID_OUTLET_NVIDIA
             + " " + PREFIX_OUTLET + SECOND_VALID_OUTLET_NVIDIA;
     public static final String OUTLET_DESC_INTEL = " " + PREFIX_OUTLET + FIRST_VALID_OUTLET_INTEL
@@ -82,13 +82,13 @@ public class ArticleCommandTestUtil {
     public static final String LINK_DESC_NVIDIA = " " + PREFIX_LINK + VALID_LINK_NVIDIA;
     public static final String LINK_DESC_INTEL = " " + PREFIX_LINK + VALID_LINK_INTEL;
 
-    public static final String INVALID_TITLE_DESC = " " + PREFIX_TITLE; // empty string not allowed for titles
-    public static final String INVALID_AUTHOR_DESC = " " + PREFIX_AUTHOR + "Bob&"; // '&' not allowed in authors
-    public static final String INVALID_PUBLICATION_DATE_DESC = " " + PREFIX_PUBLICATION_DATE
+    public static final String INVALID_TITLE_DESC = " " + PREFIX_HEADLINE; // empty string not allowed for titles
+    public static final String INVALID_AUTHOR_DESC = " " + PREFIX_CONTRIBUTOR + "Bob&"; // '&' not allowed in authors
+    public static final String INVALID_PUBLICATION_DATE_DESC = " " + PREFIX_DATE
             + "03-20-2024 12:00"; // Invalid date format
-    public static final String INVALID_PUBLICATION_TIME_DESC = " " + PREFIX_PUBLICATION_DATE
+    public static final String INVALID_PUBLICATION_TIME_DESC = " " + PREFIX_DATE
             + "20-03-2024 25:00"; // Invalid time format
-    public static final String INVALID_SOURCE_DESC = " " + PREFIX_SOURCE + "Ryan&"; // '&' not allowed in sources
+    public static final String INVALID_SOURCE_DESC = " " + PREFIX_INTERVIEWEE + "Ryan&"; // '&' not allowed in sources
     public static final String INVALID_OUTLET_DESC = " " + PREFIX_OUTLET + "BBC News*"; // '*' not allowed in outlets
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "Tech*"; // '*' not allowed in tags
     public static final String INVALID_STATUS_DESC = " " + PREFIX_STATUS + "PUBLISHEDD"; // Invalid status

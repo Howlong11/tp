@@ -1,13 +1,14 @@
 package seedu.address.logic.commands.articlecommands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_AUTHOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTRIBUTOR;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_HEADLINE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INTERVIEWEE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LINK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OUTLET;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PUBLICATION_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_SOURCE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ARTICLES;
 
 import java.util.Collections;
@@ -49,21 +50,23 @@ public class EditArticleCommand extends ArticleCommand {
             + "by the index number used in the displayed article list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_TITLE + "HEADLINE] "
-            + "[" + PREFIX_AUTHOR + "CONTRIBUTOR]... "
-            + "[" + PREFIX_PUBLICATION_DATE + "DATE] "
-            + "[" + PREFIX_SOURCE + "INTERVIEWEE]... "
+            + "[" + PREFIX_HEADLINE + "HEADLINE] "
+            + "[" + PREFIX_CONTRIBUTOR + "CONTRIBUTOR]... "
+            + "[" + PREFIX_INTERVIEWEE + "INTERVIEWEE]... "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_OUTLET + "OUTLET]... "
-            + "[" + PREFIX_STATUS + "STATUS]\n"
+            + "[" + PREFIX_DATE + "DATE] "
+            + "[" + PREFIX_STATUS + "STATUS] "
+            + "[" + PREFIX_LINK + "LINK]\n"
             + "Example: " + COMMAND_WORD + " " + COMMAND_PREFIX + " 1 "
-            + PREFIX_TITLE + "Headline "
-            + PREFIX_AUTHOR + "Contributor(s) "
-            + PREFIX_PUBLICATION_DATE + "2021-10-10 "
-            + PREFIX_SOURCE + "Interviewee(s) "
+            + PREFIX_HEADLINE + "Headline "
+            + PREFIX_CONTRIBUTOR + "Contributor(s) "
+            + PREFIX_INTERVIEWEE + "Interviewee(s) "
             + PREFIX_TAG + "New Tag(s) "
             + PREFIX_OUTLET + "New Outlet(s) "
-            + PREFIX_STATUS + "PUBLISHED";
+            + PREFIX_DATE + "10-10-2024 "
+            + PREFIX_STATUS + "PUBLISHED "
+            + PREFIX_LINK + "https://www.example.com";
 
     public static final String MESSAGE_EDIT_ARTICLE_SUCCESS = "Edited Article: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -280,7 +283,14 @@ public class EditArticleCommand extends ArticleCommand {
         @Override
         public String toString() {
             return new ToStringBuilder(this)
-                    .add("title", title) // Add more attributes of article here.
+                    .add("title", title)
+                    .add("authors", authors)
+                    .add("sources", sources)
+                    .add("tags", tags)
+                    .add("outlets", outlets)
+                    .add("publicationDate", publicationDate)
+                    .add("status", status)
+                    .add("link", link)
                     .toString();
         }
     }

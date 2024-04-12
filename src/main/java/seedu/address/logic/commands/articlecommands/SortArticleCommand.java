@@ -20,8 +20,8 @@ public class SortArticleCommand extends ArticleCommand {
     public static final String MESSAGE_SUCCESS = "sorted all articles by date";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + " " + COMMAND_PREFIX
-            + ": sorts articles according to publication date and displays the sorted article list.\n"
-            + "Parameters: D/ (corresponds to prefix for article's publication date attribute)\n"
+            + ": sorts articles according to date and displays the sorted article list.\n"
+            + "Parameters: D/ (corresponds to prefix for article's date attribute)\n"
             + "Example: " + COMMAND_WORD + " " + COMMAND_PREFIX + " D/";
 
     private final String prefix;

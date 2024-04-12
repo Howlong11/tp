@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Source (Contributor) to an Article
  */
 public class Source {
-    public static final String MESSAGE_CONSTRAINTS = "Source names should be alphanumeric";
+    public static final String MESSAGE_CONSTRAINTS = "Interviewee names should be alphanumeric";
     public static final String VALIDATION_REGEX = "[\\p{Alnum} ]+";
 
     public final String sourceName;
@@ -25,7 +25,6 @@ public class Source {
 
     /**
      * Returns true if a given string is a valid source name.
-     * TODO: Map to a valid source name in the address book
      */
     public static boolean isValidSourceName(String test) {
         return test.matches(VALIDATION_REGEX);

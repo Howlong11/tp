@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents an Author of an Article
  */
 public class Author {
-    public static final String MESSAGE_CONSTRAINTS = "Author names should be alphanumeric";
+    public static final String MESSAGE_CONSTRAINTS = "Contributor names should be alphanumeric";
     public static final String VALIDATION_REGEX = "[\\p{Alnum} ]+";
 
     public final String authorName;
@@ -25,7 +25,6 @@ public class Author {
 
     /**
      * Returns true if a given string is a valid author name.
-     * TODO: Map to a valid author name in the address book
      */
     public static boolean isValidAuthorName(String test) {
         return test.matches(VALIDATION_REGEX);
